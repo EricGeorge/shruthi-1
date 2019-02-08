@@ -18,6 +18,12 @@ BOOTLOADER    = $(BUILD_ROOT)muboot/muboot.hex
 EEPROM        = shruthi/data/factory_data/internal_eeprom.hex
 EEPROM_XT     = shruthi/data/factory_data/internal_eeprom_xt.hex
 
+# Redefine AVRDUDE to work with the latest avrdude installation (via platformio)
+# I could consolidate this into avrlib\makefile.mk but since it's a submodule and
+# and I didn't want to fork it I put it into the top level shruthi makefiles instead
+AVRDUDE_LATEST_PATH ?= ~/.platformio/packages/tool-avrdude/
+AVRDUDE        = $(AVRDUDE_LATEST_PATH)avrdude -C $(AVRDUDE_LATEST_PATH)avrdude.conf
+
 upload_all:	$(FIRMWARE) $(BOOTLOADER)
 		$(AVRDUDE) $(AVRDUDE_COM_OPTS) $(AVRDUDE_ISP_OPTS) \
 			-U flash:w:$(FIRMWARE):i -U flash:w:$(BOOTLOADER):i -U eeprom:w:$(EEPROM):i

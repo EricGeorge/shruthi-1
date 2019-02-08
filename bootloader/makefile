@@ -25,4 +25,10 @@ EFUSE          = fd
 
 include avrlib/makefile.mk
 
+# Redefine AVRDUDE to work with the latest avrdude installation (via platformio)
+# I could consolidate this into avrlib\makefile.mk but since it's a submodule and
+# and I didn't want to fork it I put it into the top level shruthi makefiles instead
+AVRDUDE_LATEST_PATH ?= ~/.platformio/packages/tool-avrdude/
+AVRDUDE        = $(AVRDUDE_LATEST_PATH)avrdude -C $(AVRDUDE_LATEST_PATH)avrdude.conf
+
 include $(DEP_FILE)
